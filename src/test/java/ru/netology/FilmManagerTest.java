@@ -1,12 +1,23 @@
-package ru.netology.domain;
+package ru.netology;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import ru.netology.domain.FilmItem;
+import ru.netology.manager.FilmManager;
+import ru.netology.repository.FilmRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class FilmManagerTest {
-    FilmManager manager;
+    @Mock
+    FilmRepository repository = new FilmRepository();
+    FilmManager manager = new FilmManager(repository, 10);
     FilmItem first = new FilmItem(1, "Бладшот", "боевик");
     FilmItem second = new FilmItem(2, "Вперёд", "мультфильм");
     FilmItem third = new FilmItem(3, "Отель Белград", "комедия");
@@ -21,7 +32,7 @@ class FilmManagerTest {
 
     @BeforeEach
     public void setUp() {
-        manager = new FilmManager();
+        manager = new FilmManager(repository, 10);
         manager.add(first);
         manager.add(second);
         manager.add(third);
@@ -35,50 +46,52 @@ class FilmManagerTest {
 
     @Test
     public void shouldAdd() {
-        FilmItem filmToAdd = tenth;
-        manager.add(tenth);
-        assertEquals(tenth, manager.getAll()[0]);
-    }
+        doReturn(new FilmItem[]{first}).when(repository).findAll();
+        FilmItem[] expected = new FilmItem[]{first};
+        FilmItem[] actual = manager.getSave();
 
-    @Test
-    public  void shouldBeInRightOrfer()
-    {
-        FilmItem[] actual = manager.getAll();
-        //getall возвращет первыми послдение добавленные фильмы, поэтому инвертируем входные значения для сравнения
-        FilmItem[] expected = new FilmItem[]{ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
         assertArrayEquals(expected, actual);
-
+        verify(repository).findAll();
     }
 
     @Test
     public void shouldAddFilm() {
+        doReturn(new FilmItem[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth}).when(repository).findAll();
         FilmItem filmToAdd = tenth;
         manager.add(tenth);
         assertEquals(tenth, manager.getAll()[0]);
+        verify(repository, times(1)).findAll();
     }
 
     @Test
     public void shouldDisplayLastTenFilm() {
+        doReturn(new FilmItem[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth,tenth}).when(repository).findAll();
+
+        FilmItem[] expected = new FilmItem[]{tenth,ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
         FilmItem[] actual = manager.getAll();
-        FilmItem[] expected = new FilmItem[]{ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
         assertArrayEquals(expected, actual);
+
+        verify(repository,times(1)).findAll();
     }
 
     @Test
     public void shouldDisplayTenFilmIfMoreFilm() {
-        manager.add(tenth);
-        manager.add(eleventh);
+        doReturn(new FilmItem[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh}).when(repository).findAll();
+
+        FilmItem[] expected = new FilmItem[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
         FilmItem[] actual = manager.getAll();
-        FilmItem[] expected = new FilmItem[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
-        assertEquals(expected[expected.length-1], actual[0]);
-        assertEquals(expected[1],actual[actual.length-1]);
+        assertArrayEquals(expected, actual);
+
+        verify(repository,times(1)).findAll();
     }
 
     @Test
     public void shouldReturnEmptyArray() {
-        FilmManager manager = new FilmManager();
-        assertArrayEquals(new FilmItem[0], manager.getAll());
+        doReturn(new FilmItem[]{}).when(repository).findAll();
+        FilmItem[] expected = new FilmItem[]{};
+        FilmItem[] actual = manager.getAll();
+        assertArrayEquals(expected, actual);
+
+        verify(repository).findAll();
     }
-
-
 }
