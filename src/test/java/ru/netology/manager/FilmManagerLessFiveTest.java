@@ -3,6 +3,7 @@ package ru.netology.manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.netology.domain.FilmItem;
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.verify;
 class FilmManagerLessFiveTest {
     @Mock
     FilmRepository repository;
+    @InjectMocks
     FilmManager manager = new FilmManager(repository,5);
     FilmItem first = new FilmItem(1, "Бладшот", "боевик");
     FilmItem second = new FilmItem(2, "Вперёд", "мультфильм");
