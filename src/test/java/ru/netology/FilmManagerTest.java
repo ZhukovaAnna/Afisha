@@ -1,7 +1,9 @@
-package ru.netology.domain;
+package ru.netology;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.netology.domain.FilmItem;
+import ru.netology.manager.FilmManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +22,7 @@ class FilmManagerTest {
     FilmItem eleventh = new FilmItem(11, "Алладин", "приключения");
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         manager = new FilmManager();
         manager.add(first);
         manager.add(second);
@@ -35,19 +37,9 @@ class FilmManagerTest {
 
     @Test
     public void shouldAdd() {
-        FilmItem filmToAdd = tenth;
-        manager.add(tenth);
-        assertEquals(tenth, manager.getAll()[0]);
-    }
-
-    @Test
-    public  void shouldBeInRightOrfer()
-    {
-        FilmItem[] actual = manager.getAll();
-        //getall возвращет первыми послдение добавленные фильмы, поэтому инвертируем входные значения для сравнения
         FilmItem[] expected = new FilmItem[]{ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
+        FilmItem[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
-
     }
 
     @Test
@@ -70,8 +62,8 @@ class FilmManagerTest {
         manager.add(eleventh);
         FilmItem[] actual = manager.getAll();
         FilmItem[] expected = new FilmItem[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
-        assertEquals(expected[expected.length-1], actual[0]);
-        assertEquals(expected[1],actual[actual.length-1]);
+        assertEquals(expected[expected.length - 1], actual[0]);
+        assertEquals(expected[1], actual[actual.length - 1]);
     }
 
     @Test
@@ -80,5 +72,28 @@ class FilmManagerTest {
         assertArrayEquals(new FilmItem[0], manager.getAll());
     }
 
+    @Test
+    public void shouldReturnTopNWithMinusTop() {
+        manager.add(tenth);
+        manager.add(eleventh);
+        FilmItem[] actual = manager.getTopN(-1);
 
+        assertArrayEquals(null, actual);
+    }
+
+    @Test
+    public void shouldReturnTop10WithTop100() {
+        manager.add(tenth);
+        manager.add(eleventh);
+        FilmItem[] actual = manager.getTopN(100);
+        assertEquals(10, actual.length);
+    }
+
+    @Test
+    public void shouldReturnTop10WithTop5() {
+        manager.add(tenth);
+        manager.add(eleventh);
+        FilmItem[] actual = manager.getTopN(5);
+        assertEquals(5, actual.length);
+    }
 }

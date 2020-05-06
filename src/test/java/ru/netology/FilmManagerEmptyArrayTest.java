@@ -1,11 +1,13 @@
-package ru.netology.domain;
+package ru.netology;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.netology.domain.FilmItem;
+import ru.netology.manager.FilmManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FilmManagerLessFiveTest {
+class FilmManagerEmptyArrayTest {
     FilmManager manager;
     FilmItem first = new FilmItem(1, "Бладшот", "боевик");
     FilmItem second = new FilmItem(2, "Вперёд", "мультфильм");
@@ -14,29 +16,29 @@ class FilmManagerLessFiveTest {
     FilmItem fifth = new FilmItem(5, "Человек-невидимка", "ужасы");
     FilmItem sixth = new FilmItem(6, "Тролли", "мультфильм");
     FilmItem seventh = new FilmItem(7, "Номер 1", "комедия");
-    FilmItem eighth = new FilmItem(8, "Маленькие женщины", "драма");
-    FilmItem ninth = new FilmItem(9, "Последняя пуля", "боевик");
 
     @BeforeEach
-    public void setUp() {
-        manager = new FilmManager(5);
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
+    void setUp() {
+        manager = new FilmManager(0);
     }
 
     @Test
-    void shouldDisplayLastFiveIfFive() {
-        manager.add(fourth);
-        manager.add(fifth);
-        FilmItem[] expected = new FilmItem[]{fifth, fourth, third, second, first};
+    void shouldNotDisplayFilmsIfNoFilms() {
+        FilmItem[] expected = new FilmItem[]{};
         FilmItem[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    void shouldDisplayLastThreeIfFive() {
-        FilmItem[] expected = new FilmItem[]{third, second, first};
+    void shouldNotDisplayFilmsIfFilms() {
+        manager.add(first);
+        manager.add(second);
+        manager.add(fourth);
+        manager.add(fifth);
+        manager.add(sixth);
+        manager.add(third);
+        manager.add(seventh);
+        FilmItem[] expected = new FilmItem[]{};
         FilmItem[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
     }

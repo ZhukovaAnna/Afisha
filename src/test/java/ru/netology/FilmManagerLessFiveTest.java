@@ -1,11 +1,13 @@
-package ru.netology.domain;
+package ru.netology;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.netology.domain.FilmItem;
+import ru.netology.manager.FilmManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FilmManagerNullArrayTest {
+class FilmManagerLessFiveTest {
     FilmManager manager;
     FilmItem first = new FilmItem(1, "Бладшот", "боевик");
     FilmItem second = new FilmItem(2, "Вперёд", "мультфильм");
@@ -20,27 +22,40 @@ class FilmManagerNullArrayTest {
     FilmItem eleventh = new FilmItem(11, "Алладин", "приключения");
 
     @BeforeEach
-    public void setUp() {
-        manager = new FilmManager(0);
+    void setUp() {
+        manager = new FilmManager(5);
+        manager.add(first);
+        manager.add(second);
+        manager.add(third);
     }
 
     @Test
-    void shouldNotDisplayFilmsIfNoFilms() {
-        FilmItem[] expected = new FilmItem[]{};
+    void shouldDisplayLastFiveIfFive() {
+        manager.add(fourth);
+        manager.add(fifth);
+        FilmItem[] expected = new FilmItem[]{fifth, fourth, third, second, first};
         FilmItem[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    void shouldNotDisplayFilmsIfFilms() {
-        manager.add(first);
-        manager.add(second);
+    void shouldDisplayLastThreeIfFive() {
+        FilmItem[] expected = new FilmItem[]{third, second, first};
+        FilmItem[] actual = manager.getAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void shouldDisplayLastFiveIfMore() {
         manager.add(fourth);
         manager.add(fifth);
         manager.add(sixth);
-        manager.add(third);
         manager.add(seventh);
-        FilmItem[] expected = new FilmItem[]{};
+        manager.add(eighth);
+        manager.add(ninth);
+        manager.add(tenth);
+        manager.add(eleventh);
+        FilmItem[] expected = new FilmItem[]{eleventh, tenth, ninth, eighth, seventh};
         FilmItem[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
     }
