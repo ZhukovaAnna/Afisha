@@ -7,7 +7,6 @@ import ru.netology.domain.FilmItem;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class FilmRepository {
     private FilmItem[] films = new FilmItem[0];
 
@@ -15,30 +14,34 @@ public class FilmRepository {
         return films;
     }
 
+    public void save(FilmItem film) {
+        FilmItem[] tmp = new FilmItem[films.length +1];
+        System.arraycopy(films, 0, tmp, 0, films.length);
+        tmp[tmp.length -1] = film;
+        films = tmp;
+    }
+
     public FilmItem findById(int id) {
-        int length = 1;
-        FilmItem[] tmp = new FilmItem[length];
-        int index = 0;
         for (FilmItem film : films) {
             if (film.getId() == id) {
-                tmp[index] = film;
-                index++;
+                return film;
             }
-            films = tmp;
         }
         return null;
     }
 
-    public void save(FilmItem film) {
-        int length = films.length + 1;
-        FilmItem[] tmp = new FilmItem[length];
-        System.arraycopy(films, 0, tmp, 0, films.length);
-        int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = film;
-        films = tmp;
-    }
-
     public void removeById(int id) {
+
+        boolean canBeRemoved = false;
+        for (FilmItem film : films) {
+            if (film.getId() == id) {
+                canBeRemoved= true;
+                break;
+            }
+        }
+        if(!canBeRemoved)
+            return;
+
         int length = films.length - 1;
         FilmItem[] tmp = new FilmItem[length];
         int index = 0;

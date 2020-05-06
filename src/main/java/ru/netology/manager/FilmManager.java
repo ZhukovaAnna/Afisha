@@ -4,7 +4,7 @@ import ru.netology.domain.FilmItem;
 import ru.netology.repository.FilmRepository;
 
 public class FilmManager {
-    private FilmRepository repository = new FilmRepository();
+    private FilmRepository repository;
     private int lengthOfFilms = 10;
 
 
@@ -34,7 +34,7 @@ public class FilmManager {
         return result;
     }
 
-    public FilmItem[] getSave (){
+    public FilmItem[] getSave(){
         return repository.findAll();
     }
 }

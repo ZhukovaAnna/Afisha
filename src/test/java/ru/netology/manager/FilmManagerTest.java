@@ -1,8 +1,9 @@
-package ru.netology;
+package ru.netology.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.netology.domain.FilmItem;
@@ -16,8 +17,9 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class FilmManagerTest {
     @Mock
-    FilmRepository repository = new FilmRepository();
-    FilmManager manager = new FilmManager(repository, 10);
+    FilmRepository repository;
+    @InjectMocks
+    FilmManager manager = new FilmManager(repository);
     FilmItem first = new FilmItem(1, "Бладшот", "боевик");
     FilmItem second = new FilmItem(2, "Вперёд", "мультфильм");
     FilmItem third = new FilmItem(3, "Отель Белград", "комедия");
@@ -31,7 +33,7 @@ class FilmManagerTest {
     FilmItem eleventh = new FilmItem(11, "Алладин", "приключения");
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         manager = new FilmManager(repository, 10);
         manager.add(first);
         manager.add(second);
@@ -47,19 +49,22 @@ class FilmManagerTest {
     @Test
     public void shouldAdd() {
         doReturn(new FilmItem[]{first}).when(repository).findAll();
-        FilmItem[] expected = new FilmItem[]{first};
-        FilmItem[] actual = manager.getSave();
 
-        assertArrayEquals(expected, actual);
+        FilmItem[] expected = new FilmItem[]{first};
+        manager.add(first);
+        assertArrayEquals(expected, manager.getAll());
+
         verify(repository).findAll();
     }
 
     @Test
     public void shouldAddFilm() {
         doReturn(new FilmItem[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth}).when(repository).findAll();
+
         FilmItem filmToAdd = tenth;
         manager.add(tenth);
         assertEquals(tenth, manager.getAll()[0]);
+
         verify(repository, times(1)).findAll();
     }
 
@@ -88,6 +93,7 @@ class FilmManagerTest {
     @Test
     public void shouldReturnEmptyArray() {
         doReturn(new FilmItem[]{}).when(repository).findAll();
+
         FilmItem[] expected = new FilmItem[]{};
         FilmItem[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
