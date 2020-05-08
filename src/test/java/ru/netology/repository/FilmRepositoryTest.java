@@ -11,8 +11,6 @@ class FilmRepositoryTest {
     FilmItem first = new FilmItem(1, "Бладшот", "боевик");
     FilmItem second = new FilmItem(2, "Вперёд", "мультфильм");
     FilmItem third = new FilmItem(3, "Отель Белград", "комедия");
-    FilmItem fourth = new FilmItem(4, "Джентельмены", "боевик");
-    FilmItem fifth = new FilmItem(5, "Человек-невидимка", "ужасы");
 
     @Test
     void shouldFindIfExists() {
@@ -20,7 +18,7 @@ class FilmRepositoryTest {
         repository.save(second);
         repository.save(third);
         int idToFind = 2;
-        FilmItem findFilm= repository.findById(idToFind);
+        FilmItem findFilm = repository.findById(idToFind);
         assertEquals(second, findFilm);
 
     }
@@ -32,8 +30,7 @@ class FilmRepositoryTest {
         repository.save(third);
         int idToFind = 5;
         FilmItem findFilm = repository.findById(idToFind);
-        assertEquals(null, findFilm);
-
+        assertNull(findFilm);
     }
 
     @Test
