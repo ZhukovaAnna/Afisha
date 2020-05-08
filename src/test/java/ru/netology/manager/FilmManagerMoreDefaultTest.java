@@ -40,7 +40,7 @@ class FilmManagerMoreDefaultTest {
         manager.add(tenth);
         manager.add(eleventh);
         FilmItem[] expected = new FilmItem[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
-        FilmItem[] actual = manager.getAll(12);
+        FilmItem[] actual = manager.getAll(11);
         assertArrayEquals(expected, actual);
     }
 
@@ -50,7 +50,7 @@ class FilmManagerMoreDefaultTest {
         manager.add(eleventh);
         manager.add(twelfth);
         FilmItem[] expected = new FilmItem[]{twelfth, eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
-        FilmItem[] actual = manager.getAll(13);
+        FilmItem[] actual = manager.getAll(11);
         assertArrayEquals(expected, actual);
     }
 
