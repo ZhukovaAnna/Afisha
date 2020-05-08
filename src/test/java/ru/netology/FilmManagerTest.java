@@ -38,20 +38,19 @@ class FilmManagerTest {
     @Test
     public void shouldAdd() {
         FilmItem[] expected = new FilmItem[]{ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(10);
         assertArrayEquals(expected, actual);
     }
 
     @Test
     public void shouldAddFilm() {
-        FilmItem filmToAdd = tenth;
         manager.add(tenth);
-        assertEquals(tenth, manager.getAll()[0]);
+        assertEquals(tenth, manager.getAll(10)[0]);
     }
 
     @Test
     public void shouldDisplayLastTenFilm() {
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(10);
         FilmItem[] expected = new FilmItem[]{ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
         assertArrayEquals(expected, actual);
     }
@@ -60,23 +59,16 @@ class FilmManagerTest {
     public void shouldDisplayTenFilmIfMoreFilm() {
         manager.add(tenth);
         manager.add(eleventh);
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(10);
         FilmItem[] expected = new FilmItem[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
-        assertEquals(expected[expected.length - 1], actual[0]);
         assertEquals(expected[1], actual[actual.length - 1]);
     }
-
-    @Test
-    public void shouldReturnEmptyArray() {
-        FilmManager manager = new FilmManager();
-        assertArrayEquals(new FilmItem[0], manager.getAll());
-    }
-
+    
     @Test
     public void shouldReturnTopNWithMinusTop() {
         manager.add(tenth);
         manager.add(eleventh);
-        FilmItem[] actual = manager.getTopN(-1);
+        FilmItem[] actual = manager.getAll(-1);
 
         assertArrayEquals(null, actual);
     }
@@ -85,7 +77,7 @@ class FilmManagerTest {
     public void shouldReturnTop10WithTop100() {
         manager.add(tenth);
         manager.add(eleventh);
-        FilmItem[] actual = manager.getTopN(100);
+        FilmItem[] actual = manager.getAll(100);
         assertEquals(10, actual.length);
     }
 
@@ -93,7 +85,7 @@ class FilmManagerTest {
     public void shouldReturnTop10WithTop5() {
         manager.add(tenth);
         manager.add(eleventh);
-        FilmItem[] actual = manager.getTopN(5);
+        FilmItem[] actual = manager.getAll(5);
         assertEquals(5, actual.length);
     }
 }

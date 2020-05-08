@@ -25,7 +25,7 @@ class FilmManagerEmptyArrayTest {
     @Test
     void shouldNotDisplayFilmsIfNoFilms() {
         FilmItem[] expected = new FilmItem[]{};
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(0);
         assertArrayEquals(expected, actual);
     }
 
@@ -39,7 +39,7 @@ class FilmManagerEmptyArrayTest {
         manager.add(third);
         manager.add(seventh);
         FilmItem[] expected = new FilmItem[]{};
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(0);
         assertArrayEquals(expected, actual);
     }
 }

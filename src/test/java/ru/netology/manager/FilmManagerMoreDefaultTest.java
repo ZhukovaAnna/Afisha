@@ -40,7 +40,7 @@ class FilmManagerMoreDefaultTest {
         manager.add(tenth);
         manager.add(eleventh);
         FilmItem[] expected = new FilmItem[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(12);
         assertArrayEquals(expected, actual);
     }
 
@@ -50,14 +50,14 @@ class FilmManagerMoreDefaultTest {
         manager.add(eleventh);
         manager.add(twelfth);
         FilmItem[] expected = new FilmItem[]{twelfth, eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(13);
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void shouldDisplayLastNine() {
         FilmItem[] expected = new FilmItem[]{ninth, eighth, seventh, sixth, fifth, fourth, third, second,first};
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(10);
         assertArrayEquals(expected, actual);
     }
 }

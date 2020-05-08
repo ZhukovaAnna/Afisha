@@ -22,37 +22,23 @@ public class FilmManager {
         items = tmp;
     }
 
-    public FilmItem[] getAll() {
-        if (lengthOfFilms > items.length) {
-            lengthOfFilms = items.length;
-        }
-        FilmItem[] result = new FilmItem[lengthOfFilms];
-        for (int i = 0; i < result.length; i++) {
-            int index = items.length - i - 1;
-            result[i] = items[index];
-        }
-        return result;
-    }
-
-    public  FilmItem[] getTopN(int topCount)
-    {
-        if(topCount<=0)
+    public FilmItem[] getAll(int topCount) {
+        if (topCount <= 0)
             return null;
 
         if (lengthOfFilms > items.length) {
             lengthOfFilms = items.length;
         }
-        if (lengthOfFilms >=topCount)
-            lengthOfFilms = topCount;
 
+        if (lengthOfFilms >= topCount)
+            lengthOfFilms = topCount;
         FilmItem[] result = new FilmItem[lengthOfFilms];
         for (int i = 0; i < result.length; i++) {
             int index = items.length - i - 1;
             result[i] = items[index];
-            if (i==topCount-1)
+            if (i == topCount - 1)
                 break;
         }
         return result;
     }
-
 }

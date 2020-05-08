@@ -34,14 +34,14 @@ class FilmManagerLessFiveTest {
         manager.add(fourth);
         manager.add(fifth);
         FilmItem[] expected = new FilmItem[]{fifth, fourth, third, second, first};
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(5);
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void shouldDisplayLastThreeIfFive() {
         FilmItem[] expected = new FilmItem[]{third, second, first};
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(3);
         assertArrayEquals(expected, actual);
     }
 
@@ -56,7 +56,7 @@ class FilmManagerLessFiveTest {
         manager.add(tenth);
         manager.add(eleventh);
         FilmItem[] expected = new FilmItem[]{eleventh, tenth, ninth, eighth, seventh};
-        FilmItem[] actual = manager.getAll();
+        FilmItem[] actual = manager.getAll(5);
         assertArrayEquals(expected, actual);
     }
 }
